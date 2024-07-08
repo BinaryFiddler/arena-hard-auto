@@ -24,6 +24,7 @@ from utils import (
     chat_completion_mistral,
     http_completion_gemini,
     chat_completion_cohere,
+    chat_completion_heurist,
     reorg_answer_file,
     OPENAI_MODEL_LIST,
     temperature_config,
@@ -77,6 +78,11 @@ def get_answer(
                                                 messages=conv,
                                                 temperature=temperature,
                                                 max_tokens=max_tokens)
+            elif api_type == "heurist":
+                output = chat_completion_heurist(model=endpoint_info["model_name"],
+                                                 messages=conv,
+                                                 temperature=temperature,
+                                                 max_tokens=max_tokens)
             else:
                 output = chat_completion_openai(model=endpoint_info["model_name"], 
                                                 messages=conv, 

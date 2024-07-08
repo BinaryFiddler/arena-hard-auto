@@ -276,7 +276,45 @@ def http_completion_gemini(model, message, temperature, max_tokens):
     output = response.json()["candidates"][0]["content"]["parts"][0]["text"]
 
     return output
+
+
+def chatml_chat_pt(messages):
+    prompt = ""
+    for message in messages:
+        if message["role"] == "system":
+            prompt += "<|im_start|>system" + message["content"] + "<|im_end|>" + "\n"
+        elif message["role"] == "assistant":
+            prompt += "<|im_start|>assistant" + message["content"] + "<|im_end|>" + "\n"
+        elif message["role"] == "user":
+            prompt += "<|im_start|>user" + message["content"] + "<|im_end|>" + "\n"
+    return prompt
     
+def chat_completion_heurist(model, messages, temperature, max_tokens):
+    import uuid
+    
+    job_id = "heurist-llm-" + str(uuid.uuid4())
+    
+    base_url = "http://sequencer.heurist.xyz"
+    auth_key = "xxxx"
+
+    url = base_url + "/submit_job"
+    job = {
+        "job_id": job_id,
+        "model_input": {
+            "LLM": {
+                "prompt": chatml_chat_pt(messages),
+                "use_stream": False, 
+                "temperature": temperature,
+            },
+        },
+        "model_type": "LLM",
+        "model_id": model,
+        "deadline": 60,
+        "priority": 1,
+    }
+    headers = {'Authorization': 'Bearer ' + auth_key, 'Content-Type': 'application/json'}
+    response = requests.post(url, json=job, headers=headers)
+    return response.text
 
 
 def chat_completion_cohere(model, messages, temperature, max_tokens):
