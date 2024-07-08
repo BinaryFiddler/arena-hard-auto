@@ -8,4 +8,10 @@ num_choices: 1
 
 # a list of model to generate answers
 model_list:
-  - gpt-3.5-turbo-0125
+  # - gpt-3.5-turbo-0125
+  # - truth_model
+  - 0x453e587e45fe9737d4bee9cfffdd44e57380eb27-5ml1863
+  - 0x4d206c6253d55ba92faa73685ebc99af848c347e-659c05
+  - 0x6cdfd42dbb740868019ce7538acc9c8c0d144df1-9af1d3
+  - dolphin-miner
+  - mistral-7b

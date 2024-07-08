@@ -133,15 +133,15 @@ def build_pairwise_browser_tab():
             with gr.Column():
                 if i == 0:
                     model_selectors[i] = gr.Dropdown(
-                        choices=["gpt-4-0314"],
-                        value="gpt-4-0314",
+                        choices=models,
+                        value="truth_model",
                         label=f"Model {side_names[i]}",
                         container=False,
                     )
                 else:
                     model_selectors[i] = gr.Dropdown(
                         choices=models,
-                        value="gpt-3.5-turbo-0125",
+                        value="truth_model",
                         label=f"Model {side_names[i]}",
                         container=False,
                     )
@@ -198,6 +198,12 @@ def build_pairwise_browser_tab():
         chat_mds,
     )
 
+    model_selectors[0].change(
+        display_pairwise_answer,
+        [question_selector] + model_selectors,
+        chat_mds,
+    )
+
     model_selectors[1].change(
         display_pairwise_answer,
         [question_selector] + model_selectors,
@@ -208,18 +214,18 @@ def build_pairwise_browser_tab():
 
 
 block_css = """
-#user_question_1 {
-    background-color: #DEEBF7;
-}
-#user_question_2 {
-    background-color: #E2F0D9;
-}
-#reference {
-    background-color: #FFF2CC;
-}
-#model_explanation {
-    background-color: #FBE5D6;
-}
+# #user_question_1 {
+#     background-color: #DEEBF7;
+# }
+# #user_question_2 {
+#     background-color: #E2F0D9;
+# }
+# #reference {
+#     background-color: #FFF2CC;
+# }
+# #model_explanation {
+#     background-color: #FBE5D6;
+# }
 """
 
 

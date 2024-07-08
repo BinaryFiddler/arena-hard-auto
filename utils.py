@@ -289,16 +289,17 @@ def chatml_chat_pt(messages):
             prompt += "<|im_start|>user" + message["content"] + "<|im_end|>" + "\n"
     return prompt
     
-def chat_completion_heurist(model, messages, temperature, max_tokens):
+def chat_completion_heurist(model, messages, temperature, miner_id, max_tokens):
     import uuid
     
     job_id = "heurist-llm-" + str(uuid.uuid4())
     
     base_url = "http://sequencer.heurist.xyz"
-    auth_key = "xxxx"
+    auth_key = "xxx"
 
-    url = base_url + "/submit_job"
+    url = base_url + "/submit_probe_job"
     job = {
+        "target_miner_id": miner_id,
         "job_id": job_id,
         "model_input": {
             "LLM": {
@@ -313,6 +314,7 @@ def chat_completion_heurist(model, messages, temperature, max_tokens):
         "priority": 1,
     }
     headers = {'Authorization': 'Bearer ' + auth_key, 'Content-Type': 'application/json'}
+    time.sleep(2)
     response = requests.post(url, json=job, headers=headers)
     return response.text
 

@@ -82,6 +82,7 @@ def get_answer(
                 output = chat_completion_heurist(model=endpoint_info["model_name"],
                                                  messages=conv,
                                                  temperature=temperature,
+                                                 miner_id=endpoint_info["miner_id"],
                                                  max_tokens=max_tokens)
             else:
                 output = chat_completion_openai(model=endpoint_info["model_name"], 
